@@ -1,6 +1,6 @@
 POWERLEVEL9K_MODE='nerdfont-complete'
 POWERLEVEL9K_LEFT_PROMPT_ELEMENTS=(context dir dir_writable rbenv vcs root_indicator)
-POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(command_execution_time status background_jobs load)
+POWERLEVEL9K_RIGHT_PROMPT_ELEMENTS=(command_execution_time status background_jobs)
 POWERLEVEL9K_SHOW_CHANGESET=true
 DEFAULT_USER=rjmunhoz
 POWERLEVEL9K_SHORTEN_DIR_LENGTH=3
