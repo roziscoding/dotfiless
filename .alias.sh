@@ -6,7 +6,6 @@ alias czsh="nano ~/.zshrc"
 alias projects="cd ~/Documents/Projects"
 alias dc=docker-compose
 alias rd="rm -rf"
-alias docker="sudo docker"
 alias nodec="node && clear"
 alias dotfiles="subl ~/dotfiles"
 alias nodeup="nvm install node --reinstall-packages-from=node"
@@ -38,4 +37,40 @@ function mkd {
 
 function mdn {
 	xdg-open https://mdn.io/$1 > /dev/null 2>/dev/null
+}
+
+function safemerge {
+	git merge --no-commit --no-ff $1
+	git checkout HEAD deploy.sh .circleci/
+	git merge --continue
+}
+
+# $1 - Ambiente (dev, stage, fin)
+function mongodown {
+	DATE=`date +%d-%m-%Y`
+	DEST=$MONGODUMPS_DIR$DATE/$1
+	HOST="$1.mantris.com.br:57348"
+	echo "Backing '$1' up to '$DEST'"
+	mongodump -h $HOST -o $DEST
+	echo "Done!"
+}
+
+# $1 - Data (dd-mm-yyyy)
+# $2 - Ambiente de origem (dev, stage, fin)
+# $3 - Ambiente de destino (dev, stage, fin)
+function mongoup {
+	SOURCE=$MONGODUMPS_DIR$1/$2
+	HOST=$3.mantris.com.br:57348
+	echo "Restoring '$2' from '$SOURCE' to '$3'"
+	mongorestore -v --drop --host $HOST $SOURCE
+	echo "Done!"
+}
+
+# $1 - Ambiente de origem (dev, stage, fin)
+# $2 - Ambiente de destino (dev, stage, fin)
+function mongosync {
+	DATE=`date +%d-%m-%Y`
+	mongodown $1
+	mongoup $DATE $1 $2
+	echo "Synced! :D"
 }
