@@ -47,12 +47,18 @@ function safemerge {
 
 # $1 - Ambiente (dev, stage, fin)
 function mongodown {
-	ORIGIN = $1
-	DATE=`date +%d-%m-%Y`
-	DEST=$MONGODUMPS_DIR$DATE/$ORIGIN
-	HOST="$ORIGIN.mantris.com.br:57348"
-	echo "Backing '$ORIGIN' up to '$DEST'"
-	mongodump -h $HOST -o $DEST
+	DOWN_ORIGIN=$1
+
+	if [ -z "$1" ]
+		then echo "Usage: mongodown [ORIGIN]"
+		return 1
+	fi
+
+	DOWN_DATE=`date +%d-%m-%Y`
+	DOWN_DEST=$MONGODUMPS_DIR$DOWN_DATE/$DOWN_ORIGIN
+	DOWN_HOST="$DOWN_ORIGIN.mantris.com.br:57348"
+	echo "Backing '$DOWN_ORIGIN' up to '$DOWN_DEST'"
+	mongodump -h $DOWN_HOST -o $DOWN_DEST
 	echo "Done!"
 }
 
@@ -60,25 +66,49 @@ function mongodown {
 # $2 - Ambiente de origem (dev, stage, fin)
 # $3 - Ambiente de destino (dev, stage, fin)
 function mongoup {
-	DATE=$1
-	ORIGIN=$2
-	DEST=$2
+	UP_DATE=$1
+	UP_ORIGIN=$2
+	UP_DEST=$3
 
-	SOURCE=$MONGODUMPS_DIR$DATE/$ORIGIN
-	HOST=$DEST.mantris.com.br:57348
-	echo "Restoring '$ORIGIN' from '$SOURCE' to '$DEST'"
-	mongorestore -v --drop --host $HOST $SOURCE
+	if [ -z "$UP_DATE" ] || [ -z "$UP_ORIGIN" ] || [ -z "$UP_DEST" ]
+		then
+			echo "Usage: mongoup DATE ORIGIN DESTINATAION"
+			return 1
+	fi
+
+	if [ $UP_DEST = "fin" ]
+		then
+			echo "YOU SHALL NOT PASS! (no restoring to production :D)"
+			return 1
+	fi
+
+	UP_SOURCE=$MONGODUMPS_DIR$UP_DATE/$UP_ORIGIN
+	UP_HOST=$UP_DEST.mantris.com.br:57348
+	echo "Restoring '$UP_ORIGIN' from '$UP_SOURCE' to '$UP_DEST'"
+	mongorestore -v --drop --host $UP_HOST $UP_SOURCE
 	echo "Done!"
 }
 
 # $1 - Ambiente de origem (dev, stage, fin)
 # $2 - Ambiente de destino (dev, stage, fin)
 function mongosync {
-	ORIGIN=$1
-	DEST=$2
+	SYNC_ORIGIN=$1
+	SYNC_DEST=$2
+
+	if [ -z "$SYNC_ORIGIN" ] || [ -z "$SYNC_DEST" ]
+		then
+			echo "Usage: mongosync ORIGIN DESTINATAION"
+			return 1
+	fi
+
+	if [ $SYNC_DEST = "fin" ]
+		then
+			echo "YOU SHALL NOT PASS! (no restoring to production :D)"
+			return 1
+	fi
 
 	DATE=`date +%d-%m-%Y`
-	mongodown $ORIGIN
-	mongoup $DATE $ORIGIN $DEST
+	mongodown $SYNC_ORIGIN
+	mongoup $DATE $SYNC_ORIGIN $SYNC_DEST
 	echo "Synced! :D"
 }
