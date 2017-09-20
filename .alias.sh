@@ -47,10 +47,11 @@ function safemerge {
 
 # $1 - Ambiente (dev, stage, fin)
 function mongodown {
+	ORIGIN = $1
 	DATE=`date +%d-%m-%Y`
-	DEST=$MONGODUMPS_DIR$DATE/$1
-	HOST="$1.mantris.com.br:57348"
-	echo "Backing '$1' up to '$DEST'"
+	DEST=$MONGODUMPS_DIR$DATE/$ORIGIN
+	HOST="$ORIGIN.mantris.com.br:57348"
+	echo "Backing '$ORIGIN' up to '$DEST'"
 	mongodump -h $HOST -o $DEST
 	echo "Done!"
 }
@@ -59,9 +60,13 @@ function mongodown {
 # $2 - Ambiente de origem (dev, stage, fin)
 # $3 - Ambiente de destino (dev, stage, fin)
 function mongoup {
-	SOURCE=$MONGODUMPS_DIR$1/$2
-	HOST=$3.mantris.com.br:57348
-	echo "Restoring '$2' from '$SOURCE' to '$3'"
+	DATE=$1
+	ORIGIN=$2
+	DEST=$2
+
+	SOURCE=$MONGODUMPS_DIR$DATE/$ORIGIN
+	HOST=$DEST.mantris.com.br:57348
+	echo "Restoring '$ORIGIN' from '$SOURCE' to '$DEST'"
 	mongorestore -v --drop --host $HOST $SOURCE
 	echo "Done!"
 }
@@ -69,8 +74,11 @@ function mongoup {
 # $1 - Ambiente de origem (dev, stage, fin)
 # $2 - Ambiente de destino (dev, stage, fin)
 function mongosync {
+	ORIGIN=$1
+	DEST=$2
+
 	DATE=`date +%d-%m-%Y`
-	mongodown $1
-	mongoup $DATE $1 $2
+	mongodown $ORIGIN
+	mongoup $DATE $ORIGIN $DEST
 	echo "Synced! :D"
 }
