@@ -10,6 +10,8 @@ alias nodec="node && clear"
 alias dotfiles="subl ~/dotfiles"
 alias nodeup="nvm install node --reinstall-packages-from=node"
 alias pig="ping google.com"
+alias systop="systemctl stop"
+alias systart="systemctl start"
 
 ## Git
 alias ginit="cp ~/.gitignore . && git init"
@@ -42,6 +44,9 @@ function mdn {
 function safemerge {
 	git merge --no-commit --no-ff $1
 	git checkout HEAD deploy.sh .circleci/
+	if [ -d "config" ]; then
+	    git checkout HEAD config/
+	fi
 	git merge --continue
 }
 
@@ -57,6 +62,12 @@ function mongodown {
 	DOWN_DATE=`date +%d-%m-%Y`
 	DOWN_DEST=$MONGODUMPS_DIR$DOWN_DATE/$DOWN_ORIGIN
 	DOWN_HOST="$DOWN_ORIGIN.mantris.com.br:57348"
+
+	if [ $DOWN_ORIGIN = "local" ]
+		then
+			DOWN_HOST="localhost"
+	fi
+
 	echo "Backing '$DOWN_ORIGIN' up to '$DOWN_DEST'"
 	mongodump -h $DOWN_HOST -o $DOWN_DEST
 	echo "Done!"
@@ -84,6 +95,12 @@ function mongoup {
 
 	UP_SOURCE=$MONGODUMPS_DIR$UP_DATE/$UP_ORIGIN
 	UP_HOST=$UP_DEST.mantris.com.br:57348
+
+	if [ $UP_DEST = "local" ]
+		then
+			UP_HOST="localhost"
+	fi
+
 	echo "Restoring '$UP_ORIGIN' from '$UP_SOURCE' to '$UP_DEST'"
 	mongorestore -v --drop --host $UP_HOST $UP_SOURCE
 	echo "Done!"
