@@ -132,5 +132,5 @@ function mongosync {
 }
 
 function gmc {
-	echo git clone "https://github.com/DevMantris/$1"
+	git clone "https://github.com/DevMantris/$1"
 }
