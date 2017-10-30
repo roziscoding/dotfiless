@@ -12,6 +12,7 @@ alias nodeup="nvm install node --reinstall-packages-from=node"
 alias pig="ping google.com"
 alias systop="systemctl stop"
 alias systart="systemctl start"
+alias knock="sudo fuser -v"
 
 ## Git
 alias ginit="cp ~/.gitignore . && git init"
