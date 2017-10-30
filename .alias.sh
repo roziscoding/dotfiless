@@ -130,3 +130,7 @@ function mongosync {
 	mongoup $DATE $SYNC_ORIGIN $SYNC_DEST
 	echo "Synced! :D"
 }
+
+function gmc {
+	echo git clone "https://github.com/DevMantris/$1"
+}
