@@ -132,5 +132,9 @@ function mongosync {
 }
 
 function gmc {
-	git clone "https://github.com/DevMantris/$1"
+	git clone "git@github.com:DevMantris/$1.git"
+}
+
+function otw {
+	ssh bandit$1@bandit.labs.overthewire.org -p 2220
 }
