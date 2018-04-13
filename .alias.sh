@@ -5,6 +5,7 @@ alias reload!="source ~/.zshrc && echo 'ZSH reloaded'"
 alias czsh="nano ~/.zshrc"
 alias projects="cd ~/Documents/Projects"
 alias dc=docker-compose
+alias dcu="docker-compose up --build"
 alias rd="rm -rf"
 alias nodec="node && clear"
 alias dotfiles="subl ~/dotfiles"
@@ -13,13 +14,17 @@ alias pig="ping google.com"
 alias systop="systemctl stop"
 alias systart="systemctl start"
 alias knock="sudo fuser -v"
+alias reflect="sudo reflector -l 5 --sort rate --save /etc/pacman.d/mirrorlist"
 
 ## Git
 alias ginit="cp ~/.gitignore . && git init"
 alias unstage="git reset HEAD"
 alias gic="git commit -m 'Initial commit'"
-alias gf="git-flow"
-alias gff="git flow feature"
+alias gco="git checkout"
+alias gc="git commit"
+alias gaa="git add ."
+alias gst="git status"
+alias gb="git branch"
 
 ## Docker
 alias spin="docker start"
@@ -64,6 +69,11 @@ function mongodown {
 	DOWN_DEST=$MONGODUMPS_DIR$DOWN_DATE/$DOWN_ORIGIN
 	DOWN_HOST="$DOWN_ORIGIN.mantris.com.br:57348"
 
+	if [ $DOWN_ORIGIN = "fin" ]
+		then
+			DOWN_HOST="mongodb://app_auth_service:p9WC46Ji6yTathPyPL2k9BVxZztCLs@mongodb-prod-shard-00-00-w1oyr.mongodb.net:27017/auth?ssl=true&replicaSet=MongoDB-Prod-shard-0&authSource=admin"
+	fi
+
 	if [ $DOWN_ORIGIN = "local" ]
 		then
 			DOWN_HOST="localhost"
@@ -99,7 +109,7 @@ function mongoup {
 
 	if [ $UP_DEST = "local" ]
 		then
-			UP_HOST="localhost"
+			UP_HOST="localhost:27017"
 	fi
 
 	echo "Restoring '$UP_ORIGIN' from '$UP_SOURCE' to '$UP_DEST'"
