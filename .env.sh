@@ -3,6 +3,7 @@ export PATH=$PATH:~/Software/TF
 export PATH=$PATH:/opt/sublime_text_3/
 export PATH=$PATH:~/.local/share/bin
 export PATH=$PATH:~/.local/share/bin/flutter/bin
+export PATH=$PATH:/Users/rjmunhoz/Library/Android/sdk/platform-tools
 export MONGODUMPS_DIR="/home/rjmunhoz/Documents/Mantris/mongodumps/"
 export NODE_ENV="development"
 export LIBGL_DRI3_DISABLE=1
