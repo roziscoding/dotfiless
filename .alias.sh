@@ -3,9 +3,7 @@ alias getme="sudo pacman -S --noconfirm"
 alias yo="yaourt -S --noconfirm"
 alias reload!="source ~/.zshrc && echo 'ZSH reloaded'"
 alias czsh="nano ~/.zshrc"
-alias projects="cd ~/Documents/Projects"
-alias dc=docker-compose
-alias dcu="docker-compose up --build"
+alias projects="cd ~/Projects/"
 alias rd="rm -rf"
 alias nodec="node && clear"
 alias dotfiles="subl ~/dotfiles"
@@ -15,7 +13,8 @@ alias systop="systemctl stop"
 alias systart="systemctl start"
 alias knock="sudo fuser -v"
 alias reflect="sudo reflector -l 5 --sort rate --save /etc/pacman.d/mirrorlist"
-
+alias shred="gshred"
+alias gpg="gpg2"
 ## Git
 alias ginit="cp ~/.gitignore . && git init"
 alias unstage="git reset HEAD"
@@ -25,10 +24,13 @@ alias gc="git commit"
 alias gaa="git add ."
 alias gst="git status"
 alias gb="git branch"
-
+alias gode="code /Users/rjmunhoz/Projects/go/src/gitlab.com/rjmunhoz"
 ## Docker
 alias spin="docker start"
 alias stop="docker stop"
+alias dc=docker-compose
+alias dcu="docker-compose up --build"
+alias dcd="docker-compose down"
 
 ## Swagger
 alias sgmake="swagger project create"
@@ -142,9 +144,13 @@ function mongosync {
 }
 
 function gmc {
-	git clone "git@github.com:DevMantris/$1.git"
+	git clone "git@gitlab.com:mantris/$1.git"
 }
 
 function otw {
 	ssh bandit$1@bandit.labs.overthewire.org -p 2220
+}
+
+function pushit {
+	git push -u origin $(git rev-parse --abbrev-ref HEAD)
 }
