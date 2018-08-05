@@ -2,13 +2,12 @@
 # export PATH=$HOME/bin:/usr/local/bin:$PATH
 
 # Path to your oh-my-zsh installation.
-  export ZSH=/home/rjmunhoz/.oh-my-zsh
+export ZSH="/Users/rjmunhoz/.oh-my-zsh"
 
 # Set name of the theme to load. Optionally, if you set this to "random"
 # it'll load a random theme each time that oh-my-zsh is loaded.
 # See https://github.com/robbyrussell/oh-my-zsh/wiki/Themes
-# ZSH_THEME="robbyrussell"
-ZSH_THEME="powerlevel9k/powerlevel9k"
+ZSH_THEME="af-magic"
 
 # Set list of themes to load
 # Setting this variable when ZSH_THEME=random
@@ -49,7 +48,10 @@ ZSH_THEME="powerlevel9k/powerlevel9k"
 
 # Uncomment the following line if you want to change the command execution time
 # stamp shown in the history command output.
-# The optional three formats: "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# You can set one of the optional three formats:
+# "mm/dd/yyyy"|"dd.mm.yyyy"|"yyyy-mm-dd"
+# or set a custom format using the strftime function format specifications,
+# see 'man strftime' for details.
 # HIST_STAMPS="mm/dd/yyyy"
 
 # Would you like to use another custom folder than $ZSH/custom?
@@ -60,8 +62,10 @@ ZSH_THEME="powerlevel9k/powerlevel9k"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(
-  git,
+  git
   zsh-autosuggestions
+  npm
+  zsh-syntax-highlighting
 )
 
 source $ZSH/oh-my-zsh.sh
@@ -93,27 +97,18 @@ source $ZSH/oh-my-zsh.sh
 #
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
+# alias ohmyzsh="mate ~/.oh-my-zsh
 
-source ~/dotfiles/index.sh
+source ~/dotfiles/index.sh 
 
 export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
 _direnv_hook() {
-  eval "$(direnv export zsh)";
+  eval "$("/usr/local/bin/direnv" export zsh)";
 }
 typeset -ag precmd_functions;
 if [[ -z ${precmd_functions[(r)_direnv_hook]} ]]; then
   precmd_functions+=_direnv_hook;
 fi
-
-clear && neofetch
-
-# Adding autocomplete for 'we'
-[ -f ~/.we_autocomplete ] && source ~/.we_autocomplete
-
-# tabtab source for electron-forge package
-# uninstall by removing these lines or running `tabtab uninstall electron-forge`
-[[ -f /home/rjmunhoz/.npm/_npx/14334/lib/node_modules/electron-forge/node_modules/tabtab/.completions/electron-forge.zsh ]] && . /home/rjmunhoz/.npm/_npx/14334/lib/node_modules/electron-forge/node_modules/tabtab/.completions/electron-forge.zsh
