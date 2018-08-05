@@ -1,0 +1,14 @@
+export EDITOR=vim
+export PATH=$PATH:~/Software/TF
+export PATH=$PATH:/opt/sublime_text_3/
+export PATH=$PATH:~/.local/share/bin
+export PATH=$PATH:~/.local/share/bin/flutter/bin
+export PATH=$PATH:/Users/rjmunhoz/Library/Android/sdk/platform-tools
+export PATH=$PATH:/usr/local/bin
+export PATH=$PATH:$(npm bin)
+export PATH=$PATH:$(brew --prefix)'/bin:'$(brew --prefix)'/sbin'
+export MONGODUMPS_DIR="/home/rjmunhoz/Documents/Mantris/mongodumps/"
+export NODE_ENV="development"
+export LIBGL_DRI3_DISABLE=1
+export GOPATH=~/Projects/go
+export PATH=$PATH:$(go env GOPATH)/bin
